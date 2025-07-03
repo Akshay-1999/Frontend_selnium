@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Run Script</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .app-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(76, 68, 182, 0.15);
+            padding: 2.5rem 2rem 2rem 2rem;
+            min-width: 320px;
+            max-width: 90vw;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            margin-bottom: 2rem;
+            color: #4c44b6;
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        label {
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        select {
+            width: 220px;
+            padding: 0.7rem 1rem;
+            border: 2px solid #e1e5ea;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            background: #f7f8fa;
+            color: #333;
+            transition: border-color 0.2s;
+        }
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            width: 220px;
+            padding: 0.7rem 1rem;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.12);
+            transition: background 0.2s, transform 0.1s;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px) scale(1.03);
+        }
+        @media (max-width: 400px) {
+            .app-card {
+                min-width: 90vw;
+                padding: 1.5rem 0.5rem;
+            }
+            select, button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-card">
+        <h2>Run a Script</h2>
+        <label for="scriptSelect">Select Script</label>
+        <select id="scriptSelect">
+            <option value="script1">Script 1</option>
+            <option value="script2">Script 2</option>
+        </select>
+        <button id="runBtn">Run</button>
+    </div>
+    <script>
+    document.getElementById('runBtn').onclick = function() {
+        const script = document.getElementById('scriptSelect').value;
+        fetch('/run-script', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ script_name: script })
+        })
+        .then(r => r.json())
+        .then(data => alert(data.message))
+        .catch(e => alert('Error: ' + e));
+    };
+    </script>
+</body>
+</html> 
